@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "indianRegistry": "Registro India",
+    "globalRegistry": "Registro Global",
+    "journal": "Revista",
+    "reports": "Informes",
+    "about": "Acerca de",
+    "verifyUFRN": "Verificar UFRN",
+    "listStartup": "Registrar Startup"
+  },
+  "home": {
+    "heroTitle": "Registro Verificado de Startups de India",
+    "heroSubtitle": "5000+ startups verificadas. Perfiles de fundadores. Datos de financiación. Gratis.",
+    "founderChronicle": "La Crónica del Fundador 2026",
+    "founderSubtitle": "Perfiles de los fundadores de startups más icónicos de India",
+    "exploreRegistry": "Explorar Registro",
+    "submitStartup": "Enviar tu Startup"
+  },
+  "footer": {
+    "founderChronicle": "La Crónica del Fundador",
+    "startupRegistry": "Registro de Startups",
+    "blog": "Blog",
+    "submitStartup": "Enviar Startup",
+    "about": "Acerca de UpForge"
+  },
+  "meta": {
+    "title": "UpForge — Registro Verificado de Startups de India 2026",
+    "description": "Descubre 5000+ startups indias verificadas, fundadores unicornio, datos de financiación e historias."
+  }
+}
