@@ -19,14 +19,12 @@ export function Navbar() {
   const pathname = usePathname();
   const params = useParams();
 
-  // Derive current locale from URL params
   const currentLang = (
     params?.lang && locales.includes(params.lang as Locale)
       ? params.lang
       : defaultLocale
   ) as Locale;
 
-  // Prefix internal links with locale segment when not English
   const localePath = (path: string) =>
     currentLang === "en" ? path : `/${currentLang}${path}`;
 
@@ -41,27 +39,20 @@ export function Navbar() {
   const links: NavLink[] = [
     { name: "Home",            href: localePath("/")        },
     { name: "Indian Registry", href: localePath("/startup") },
-    {
-      name: "Global Registry",
-      href: "https://www.upforge.org/registry",
-      external: true,
-    },
-    { name: "Journal", href: localePath("/blog")    },
-    { name: "Reports", href: localePath("/reports") },
-    { name: "About",   href: localePath("/about")   },
+    { name: "Global Registry", href: "https://www.upforge.org/registry", external: true },
+    { name: "Journal",         href: localePath("/blog")    },
+    { name: "Reports",         href: localePath("/reports") },
+    { name: "About",           href: localePath("/about")   },
   ];
 
   const isLinkActive = (link: NavLink) => {
     if (link.external) return false;
-    // Normalise: strip locale prefix for comparison
     const segments = pathname.split("/").filter(Boolean);
     const isLocalePrefix = locales.includes(segments[0] as Locale);
     const cleanPathname = isLocalePrefix ? "/" + segments.slice(1).join("/") : pathname;
-
     const hrefSegments = link.href.split("/").filter(Boolean);
     const isHrefLocale = locales.includes(hrefSegments[0] as Locale);
     const cleanHref = isHrefLocale ? "/" + hrefSegments.slice(1).join("/") : link.href;
-
     if (cleanHref === "/") return cleanPathname === "/";
     return cleanPathname === cleanHref || cleanPathname.startsWith(cleanHref + "/");
   };
@@ -84,45 +75,47 @@ export function Navbar() {
     }`;
   };
 
-  const renderDesktop = (link: NavLink) =>
-    link.external ? (
-      <a key={link.name} href={link.href} className={desktopClass(link)}>
-        {link.name}
-      </a>
-    ) : (
+  const renderDesktop = (link: NavLink) => {
+    if (link.external) {
+      return (
+        <a key={link.name} href={link.href} className={desktopClass(link)}>
+          {link.name}
+        </a>
+      );
+    }
+    return (
       <Link key={link.name} href={link.href} className={desktopClass(link)}>
         {link.name}
       </Link>
     );
+  };
 
- const renderMobile = (link: NavLink) => {
-  const active = isLinkActive(link);
-  const inner = (
-    <span className="flex items-center justify-between w-full">
-      <span>{link.name}</span>
-      {active && <span className="w-1.5 h-1.5 rounded-full bg-[#1C1C1C]" />}
-    </span>
-  );
-  return link.external ? (
-    
-      key={link.name}
-      href={link.href}
-      onClick={() => setIsOpen(false)}
-      className={mobileClass(link)}
-    >
-      {inner}
-    </a>
-  ) : (
-    <Link
-      key={link.name}
-      href={link.href}
-      onClick={() => setIsOpen(false)}
-      className={mobileClass(link)}
-    >
-      {inner}
-    </Link>
-  );
-};
+  const renderMobile = (link: NavLink) => {
+    const active = isLinkActive(link);
+    if (link.external) {
+      return (
+        
+          key={link.name}
+          href={link.href}
+          onClick={() => setIsOpen(false)}
+          className={mobileClass(link)}
+        >
+          <span>{link.name}</span>
+        </a>
+      );
+    }
+    return (
+      <Link
+        key={link.name}
+        href={link.href}
+        onClick={() => setIsOpen(false)}
+        className={mobileClass(link)}
+      >
+        <span>{link.name}</span>
+        {active && <span className="w-1.5 h-1.5 rounded-full bg-[#1C1C1C]" />}
+      </Link>
+    );
+  };
 
   return (
     <>
