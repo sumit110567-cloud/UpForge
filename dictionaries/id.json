@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "home": "Beranda",
+    "indianRegistry": "Registri India",
+    "globalRegistry": "Registri Global",
+    "journal": "Jurnal",
+    "reports": "Laporan",
+    "about": "Tentang",
+    "verifyUFRN": "Verifikasi UFRN",
+    "listStartup": "Daftarkan Startup"
+  },
+  "home": {
+    "heroTitle": "Registri Startup India Terverifikasi",
+    "heroSubtitle": "5000+ startup terverifikasi. Profil pendiri. Data pendanaan. Gratis.",
+    "founderChronicle": "Kronik Pendiri 2026",
+    "founderSubtitle": "Profil mendalam para pendiri startup paling ikonik India",
+    "exploreRegistry": "Jelajahi Registri",
+    "submitStartup": "Kirimkan Startup Anda"
+  },
+  "footer": {
+    "founderChronicle": "Kronik Pendiri",
+    "startupRegistry": "Registri Startup",
+    "blog": "Blog",
+    "submitStartup": "Kirim Startup",
+    "about": "Tentang UpForge"
+  },
+  "meta": {
+    "title": "UpForge — Registri Startup India Terverifikasi 2026",
+    "description": "Temukan 5000+ startup India terverifikasi, pendiri unicorn, dan data pendanaan."
+  }
+}
