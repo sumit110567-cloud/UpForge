@@ -95,34 +95,34 @@ export function Navbar() {
       </Link>
     );
 
-  const renderMobile = (link: NavLink) => {
-    const active = isLinkActive(link);
-    const inner = (
-      <>
-        {link.name}
-        {active && <span className="w-1.5 h-1.5 rounded-full bg-[#1C1C1C]" />}
-      </>
-    );
-    return link.external ? (
-      
-        key={link.name}
-        href={link.href}
-        onClick={() => setIsOpen(false)}
-        className={mobileClass(link)}
-      >
-        {inner}
-      </a>
-    ) : (
-      <Link
-        key={link.name}
-        href={link.href}
-        onClick={() => setIsOpen(false)}
-        className={mobileClass(link)}
-      >
-        {inner}
-      </Link>
-    );
-  };
+ const renderMobile = (link: NavLink) => {
+  const active = isLinkActive(link);
+  const inner = (
+    <span className="flex items-center justify-between w-full">
+      <span>{link.name}</span>
+      {active && <span className="w-1.5 h-1.5 rounded-full bg-[#1C1C1C]" />}
+    </span>
+  );
+  return link.external ? (
+    
+      key={link.name}
+      href={link.href}
+      onClick={() => setIsOpen(false)}
+      className={mobileClass(link)}
+    >
+      {inner}
+    </a>
+  ) : (
+    <Link
+      key={link.name}
+      href={link.href}
+      onClick={() => setIsOpen(false)}
+      className={mobileClass(link)}
+    >
+      {inner}
+    </Link>
+  );
+};
 
   return (
     <>
