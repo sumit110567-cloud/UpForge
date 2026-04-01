@@ -17,7 +17,11 @@ function getPreferredLocale(request: NextRequest): Locale {
   return defaultLocale
 }
 
-export async function middleware(request: NextRequest) {
+/**
+ * UPDATED: Function renamed from 'middleware' to 'proxy' 
+ * to comply with Next.js 16.1.6 conventions.
+ */
+export async function proxy(request: NextRequest) {
   const hostname = request.headers.get('host') ?? ''
   const pathname = request.nextUrl.pathname
 
@@ -28,19 +32,14 @@ export async function middleware(request: NextRequest) {
   const domainContext = isOrg ? 'org' : 'in'
 
   // ── Locale detection ─────────────────────────────────────────────────────
-  // Check if pathname already has a locale prefix
   const segments = pathname.split('/').filter(Boolean)
   const pathnameLocale = locales.includes(segments[0] as Locale)
     ? (segments[0] as Locale)
     : null
 
-  // If no locale in URL and not default (en), redirect to locale URL
-  // We use cookie to remember user's choice
   const cookieLang = request.cookies.get('upforge-lang')?.value as Locale | undefined
   const detectedLocale = cookieLang ?? getPreferredLocale(request)
 
-  // Redirect non-English users to their locale URL if they hit /
-  // Skip redirects for static files, API routes, etc.
   const shouldRedirect =
     !pathnameLocale &&
     detectedLocale !== defaultLocale &&
@@ -77,6 +76,7 @@ export async function middleware(request: NextRequest) {
           return request.cookies.get(name)?.value
         },
         set(name: string, value: string, options: CookieOptions) {
+          // Sync cookies to the request and response
           request.cookies.set({ name, value, ...options })
           response = NextResponse.next({ request: { headers: request.headers } })
           response.headers.set('x-upforge-domain', domainContext)
@@ -96,7 +96,9 @@ export async function middleware(request: NextRequest) {
     }
   )
 
+  // This refreshes the session if needed
   await supabase.auth.getUser()
+
   return response
 }
 
