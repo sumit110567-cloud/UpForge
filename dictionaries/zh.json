@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "home": "首页",
+    "indianRegistry": "印度注册",
+    "globalRegistry": "全球注册",
+    "journal": "期刊",
+    "reports": "报告",
+    "about": "关于",
+    "verifyUFRN": "验证UFRN",
+    "listStartup": "注册初创公司"
+  },
+  "home": {
+    "heroTitle": "印度已验证初创公司注册",
+    "heroSubtitle": "5000+已验证初创公司。创始人档案。融资数据。免费。",
+    "founderChronicle": "创始人编年史2026",
+    "founderSubtitle": "印度最具标志性初创公司创始人的深度档案",
+    "exploreRegistry": "探索注册",
+    "submitStartup": "提交您的初创公司"
+  },
+  "footer": {
+    "founderChronicle": "创始人编年史",
+    "startupRegistry": "初创公司注册",
+    "blog": "博客",
+    "submitStartup": "提交初创公司",
+    "about": "关于UpForge"
+  },
+  "meta": {
+    "title": "UpForge — 印度已验证初创公司注册2026",
+    "description": "发现5000+已验证印度初创公司、独角兽创始人和融资数据。"
+  }
+}
