@@ -1,19 +1,25 @@
-import { notFound } from "next/navigation"
-import { locales, type Locale } from "@/lib/i18n"
+import { ReactNode } from "react"
+import { Locale } from "@/lib/i18n"
 
-export async function generateStaticParams() {
-  // Generate static pages for all non-English locales
-  return locales.filter(l => l !== 'en').map((lang) => ({ lang }))
+// 1. Define the props where params is a Promise
+interface LayoutProps {
+  children: ReactNode
+  params: Promise<{ lang: Locale }>
 }
 
-export default async function LangLayout({
-  children,
-  params,
-}: {
-  children: React.ReactNode
-  params: { lang: Locale }
-}) {
-  if (!locales.includes(params.lang)) notFound()
-  // Root layout already handles html/body/dir — we just pass through
-  return <>{children}</>
+// 2. Make the component async and await the params
+export default async function LocaleLayout({ 
+  children, 
+  params 
+}: LayoutProps) {
+  // Await the params before using them
+  const { lang } = await params
+
+  return (
+    <html lang={lang}>
+      <body>
+        {children}
+      </body>
+    </html>
+  )
 }
