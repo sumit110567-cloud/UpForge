@@ -1,21 +1,34 @@
-// components/navbar.tsx
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useParams } from "next/navigation";
 import { Menu, X, ChevronRight, ShieldCheck } from "lucide-react";
+import { LangSwitcher } from "./lang-switcher";
+import { defaultLocale, locales, type Locale } from "@/lib/i18n";
 
 type NavLink = {
   name: string;
   href: string;
-  external?: boolean; // true = cross-domain, use <a> but same tab (no target="_blank")
+  external?: boolean;
 };
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const params = useParams();
+
+  // Derive current locale from URL params
+  const currentLang = (
+    params?.lang && locales.includes(params.lang as Locale)
+      ? params.lang
+      : defaultLocale
+  ) as Locale;
+
+  // Prefix internal links with locale segment when not English
+  const localePath = (path: string) =>
+    currentLang === "en" ? path : `/${currentLang}${path}`;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -26,23 +39,31 @@ export function Navbar() {
   useEffect(() => setIsOpen(false), [pathname]);
 
   const links: NavLink[] = [
-    { name: "Home", href: "/" },
-    { name: "Indian Registry", href: "/startup" },
+    { name: "Home",            href: localePath("/")        },
+    { name: "Indian Registry", href: localePath("/startup") },
     {
       name: "Global Registry",
       href: "https://www.upforge.org/registry",
-      external: true, // cross-domain — plain <a>, same tab
+      external: true,
     },
-    { name: "Journal", href: "/blog" },
-    { name: "Reports", href: "/reports" },
-    { name: "About", href: "/about" },
+    { name: "Journal", href: localePath("/blog")    },
+    { name: "Reports", href: localePath("/reports") },
+    { name: "About",   href: localePath("/about")   },
   ];
 
-  // External links are never active — their pathname lives on another domain
   const isLinkActive = (link: NavLink) => {
     if (link.external) return false;
-    if (link.href === "/") return pathname === "/";
-    return pathname === link.href || pathname.startsWith(link.href + "/");
+    // Normalise: strip locale prefix for comparison
+    const segments = pathname.split("/").filter(Boolean);
+    const isLocalePrefix = locales.includes(segments[0] as Locale);
+    const cleanPathname = isLocalePrefix ? "/" + segments.slice(1).join("/") : pathname;
+
+    const hrefSegments = link.href.split("/").filter(Boolean);
+    const isHrefLocale = locales.includes(hrefSegments[0] as Locale);
+    const cleanHref = isHrefLocale ? "/" + hrefSegments.slice(1).join("/") : link.href;
+
+    if (cleanHref === "/") return cleanPathname === "/";
+    return cleanPathname === cleanHref || cleanPathname.startsWith(cleanHref + "/");
   };
 
   const desktopClass = (link: NavLink) => {
@@ -83,7 +104,7 @@ export function Navbar() {
       </>
     );
     return link.external ? (
-      <a
+      
         key={link.name}
         href={link.href}
         onClick={() => setIsOpen(false)}
@@ -113,10 +134,10 @@ export function Navbar() {
         }`}
         style={{ fontFamily: "system-ui, sans-serif" }}
       >
-        <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-6">
+        <div className="max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
 
           {/* Brand */}
-          <Link href="/" className="flex items-center gap-2.5 group flex-shrink-0">
+          <Link href={localePath("/")} className="flex items-center gap-2.5 group flex-shrink-0">
             <div className="relative w-7 h-7 overflow-hidden flex-shrink-0">
               <Image src="/logo.jpg" alt="UpForge" fill className="object-cover" />
             </div>
@@ -138,31 +159,35 @@ export function Navbar() {
             {links.map(renderDesktop)}
           </nav>
 
-          {/* Right side — Verify UFRN + List Startup */}
+          {/* Right side — Lang + Verify UFRN + List Startup */}
           <div className="hidden md:flex items-center gap-2 flex-shrink-0">
+            <LangSwitcher currentLang={currentLang} />
             <Link
-              href="/verify"
+              href={localePath("/verify")}
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 border border-[#D5D0C8] bg-white text-[11px] font-semibold tracking-wider uppercase text-[#555] hover:border-[#1C1C1C] hover:text-[#1C1C1C] transition-colors"
             >
               <ShieldCheck className="w-3 h-3" />
               Verify UFRN
             </Link>
             <Link
-              href="/submit"
+              href={localePath("/submit")}
               className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-[#1C1C1C] text-white text-[11px] font-bold tracking-wider uppercase hover:bg-[#333] transition-colors"
             >
               List Startup <ChevronRight className="w-3 h-3" />
             </Link>
           </div>
 
-          {/* Mobile toggle */}
-          <button
-            className="md:hidden p-1.5 text-[#1C1C1C] hover:bg-[#E8E4DC] transition-colors"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X size={18} /> : <Menu size={18} />}
-          </button>
+          {/* Mobile: Lang switcher + hamburger */}
+          <div className="md:hidden flex items-center gap-2">
+            <LangSwitcher currentLang={currentLang} />
+            <button
+              className="p-1.5 text-[#1C1C1C] hover:bg-[#E8E4DC] transition-colors"
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle menu"
+            >
+              {isOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -187,7 +212,7 @@ export function Navbar() {
           </div>
           <div className="px-5 py-4 flex items-center justify-between gap-3 border-t border-[#D5D0C8] bg-white/40">
             <Link
-              href="/verify"
+              href={localePath("/verify")}
               onClick={() => setIsOpen(false)}
               className="inline-flex items-center gap-1.5 px-3.5 py-2 border border-[#D5D0C8] bg-white text-[11px] font-semibold tracking-wider uppercase text-[#555] hover:border-[#1C1C1C] hover:text-[#1C1C1C] transition-colors"
             >
@@ -195,7 +220,7 @@ export function Navbar() {
               Verify UFRN
             </Link>
             <Link
-              href="/submit"
+              href={localePath("/submit")}
               onClick={() => setIsOpen(false)}
               className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#1C1C1C] text-white text-[11px] font-bold tracking-wider uppercase"
             >
