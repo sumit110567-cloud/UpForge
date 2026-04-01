@@ -1,51 +1,73 @@
-// middleware.ts
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { locales, defaultLocale, type Locale } from './lib/i18n'
 
-/**
- * UPFORGE DUAL-DOMAIN MIDDLEWARE
- *
- * STRATEGY:
- * 1. .org = Global Authority — UFRN Registry, emerging-market intelligence
- * 2. .in  = India Hub       — Founder stories, local SEO, Indian startup pages
- *
- * We do NOT redirect between domains. Instead we:
- *   a) Set 'x-upforge-domain' header → read by getDomainContext() in lib/domain.ts
- *   b) Set 'x-upforge-pathname' header → available for per-page canonical logic
- *
- * lib/domain.ts uses these headers to generate:
- *   • Correct canonical URLs and hreflang alternates in layout metadata
- *   • Domain-aware startup / registry URLs (getStartupUrl, getRegistryUrl)
- *   • Domain-aware Navbar / Footer links (getNavUrl)
- *
- * RESULT: No cross-domain link leaks, no user "flipping", no SEO duplicate penalty.
- */
+// Match locale from Accept-Language header
+function getPreferredLocale(request: NextRequest): Locale {
+  const acceptLang = request.headers.get('accept-language') ?? ''
+  // Parse "en-US,en;q=0.9,es;q=0.8" → ['en', 'es']
+  const preferred = acceptLang
+    .split(',')
+    .map(s => s.split(';')[0].trim().split('-')[0].toLowerCase())
+    .filter(Boolean)
+
+  for (const lang of preferred) {
+    if (locales.includes(lang as Locale)) return lang as Locale
+  }
+  return defaultLocale
+}
+
 export async function middleware(request: NextRequest) {
   const hostname = request.headers.get('host') ?? ''
   const pathname = request.nextUrl.pathname
 
-  // Detect domain — covers www.upforge.org, upforge.org, and Vercel preview URLs
-  // where NEXT_PUBLIC_DOMAIN=org is set in the project env.
+  // ── Domain detection ─────────────────────────────────────────────────────
   const isOrg =
     hostname.includes('upforge.org') ||
     process.env.NEXT_PUBLIC_DOMAIN === 'org'
-
   const domainContext = isOrg ? 'org' : 'in'
 
-  // ── 1. Build initial response ─────────────────────────────────────────────
+  // ── Locale detection ─────────────────────────────────────────────────────
+  // Check if pathname already has a locale prefix
+  const segments = pathname.split('/').filter(Boolean)
+  const pathnameLocale = locales.includes(segments[0] as Locale)
+    ? (segments[0] as Locale)
+    : null
+
+  // If no locale in URL and not default (en), redirect to locale URL
+  // We use cookie to remember user's choice
+  const cookieLang = request.cookies.get('upforge-lang')?.value as Locale | undefined
+  const detectedLocale = cookieLang ?? getPreferredLocale(request)
+
+  // Redirect non-English users to their locale URL if they hit /
+  // Skip redirects for static files, API routes, etc.
+  const shouldRedirect =
+    !pathnameLocale &&
+    detectedLocale !== defaultLocale &&
+    !pathname.startsWith('/_next') &&
+    !pathname.startsWith('/api') &&
+    !pathname.includes('.')
+
+  if (shouldRedirect) {
+    const url = request.nextUrl.clone()
+    url.pathname = `/${detectedLocale}${pathname}`
+    const redirectResponse = NextResponse.redirect(url)
+    redirectResponse.headers.set('x-upforge-domain', domainContext)
+    redirectResponse.headers.set('x-upforge-pathname', pathname)
+    return redirectResponse
+  }
+
+  // ── Build response ───────────────────────────────────────────────────────
   let response = NextResponse.next({
     request: { headers: request.headers },
   })
 
-  // ── 2. Inject domain context headers ─────────────────────────────────────
-  // These are available in Server Components via next/headers → headers()
-  response.headers.set('x-upforge-domain',   domainContext)
+  const currentLocale = pathnameLocale ?? defaultLocale
+  response.headers.set('x-upforge-domain', domainContext)
   response.headers.set('x-upforge-pathname', pathname)
+  response.headers.set('x-upforge-locale', currentLocale)
 
-  // ── 3. Supabase SSR session handling ──────────────────────────────────────
-  // createServerClient must be called after we have a response object.
-  // We re-apply domain headers after every cookie mutation to ensure they
-  // are never lost when NextResponse.next() is called again.
+  // ── Supabase SSR session ─────────────────────────────────────────────────
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -56,37 +78,30 @@ export async function middleware(request: NextRequest) {
         },
         set(name: string, value: string, options: CookieOptions) {
           request.cookies.set({ name, value, ...options })
-          response = NextResponse.next({
-            request: { headers: request.headers },
-          })
-          // Re-apply after response rebuild
-          response.headers.set('x-upforge-domain',   domainContext)
+          response = NextResponse.next({ request: { headers: request.headers } })
+          response.headers.set('x-upforge-domain', domainContext)
           response.headers.set('x-upforge-pathname', pathname)
+          response.headers.set('x-upforge-locale', currentLocale)
           response.cookies.set({ name, value, ...options })
         },
         remove(name: string, options: CookieOptions) {
           request.cookies.set({ name, value: '', ...options })
-          response = NextResponse.next({
-            request: { headers: request.headers },
-          })
-          // Re-apply after response rebuild
-          response.headers.set('x-upforge-domain',   domainContext)
+          response = NextResponse.next({ request: { headers: request.headers } })
+          response.headers.set('x-upforge-domain', domainContext)
           response.headers.set('x-upforge-pathname', pathname)
+          response.headers.set('x-upforge-locale', currentLocale)
           response.cookies.set({ name, value: '', ...options })
         },
       },
     }
   )
 
-  // Refresh session if expired — required for SSR auth in Server Components
   await supabase.auth.getUser()
-
   return response
 }
 
 export const config = {
   matcher: [
-    // Skip Next.js internals and static assets — only run on actual pages/APIs
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }
