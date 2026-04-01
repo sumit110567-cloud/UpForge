@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "home": "홈",
+    "indianRegistry": "인도 레지스트리",
+    "globalRegistry": "글로벌 레지스트리",
+    "journal": "저널",
+    "reports": "보고서",
+    "about": "소개",
+    "verifyUFRN": "UFRN 확인",
+    "listStartup": "스타트업 등록"
+  },
+  "home": {
+    "heroTitle": "인도 인증 스타트업 레지스트리",
+    "heroSubtitle": "5000개 이상의 인증된 스타트업. 창업자 프로필. 펀딩 데이터. 무료.",
+    "founderChronicle": "파운더 크로니클 2026",
+    "founderSubtitle": "인도 가장 상징적인 스타트업 창업자들의 심층 프로필",
+    "exploreRegistry": "레지스트리 탐색",
+    "submitStartup": "스타트업 제출"
+  },
+  "footer": {
+    "founderChronicle": "파운더 크로니클",
+    "startupRegistry": "스타트업 레지스트리",
+    "blog": "블로그",
+    "submitStartup": "스타트업 제출",
+    "about": "UpForge 소개"
+  },
+  "meta": {
+    "title": "UpForge — 인도 인증 스타트업 레지스트리 2026",
+    "description": "5000개 이상의 인증된 인도 스타트업, 유니콘 창업자 및 펀딩 데이터를 발견하세요."
+  }
+}
