@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "home": "Ana Sayfa",
+    "indianRegistry": "Hindistan Kayıt",
+    "globalRegistry": "Küresel Kayıt",
+    "journal": "Dergi",
+    "reports": "Raporlar",
+    "about": "Hakkında",
+    "verifyUFRN": "UFRN Doğrula",
+    "listStartup": "Startup Listele"
+  },
+  "home": {
+    "heroTitle": "Hindistan'ın Doğrulanmış Startup Kaydı",
+    "heroSubtitle": "5000+ doğrulanmış startup. Kurucu profilleri. Finansman verileri. Ücretsiz.",
+    "founderChronicle": "Kurucu Kroniği 2026",
+    "founderSubtitle": "Hindistan'ın en ikonik startup kurucularının derinlemesine profilleri",
+    "exploreRegistry": "Kaydı Keşfet",
+    "submitStartup": "Startupınızı Gönderin"
+  },
+  "footer": {
+    "founderChronicle": "Kurucu Kroniği",
+    "startupRegistry": "Startup Kaydı",
+    "blog": "Blog",
+    "submitStartup": "Startup Gönder",
+    "about": "UpForge Hakkında"
+  },
+  "meta": {
+    "title": "UpForge — Hindistan'ın Doğrulanmış Startup Kaydı 2026",
+    "description": "5000+ doğrulanmış Hindistan startupını, unicorn kurucularını ve finansman verilerini keşfedin."
+  }
+}  
