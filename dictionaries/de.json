@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "indianRegistry": "Indien-Register",
+    "globalRegistry": "Globales Register",
+    "journal": "Journal",
+    "reports": "Berichte",
+    "about": "Über uns",
+    "verifyUFRN": "UFRN Prüfen",
+    "listStartup": "Startup Eintragen"
+  },
+  "home": {
+    "heroTitle": "Indiens Verifiziertes Startup-Register",
+    "heroSubtitle": "5000+ verifizierte Startups. Gründerprofile. Finanzierungsdaten. Kostenlos.",
+    "founderChronicle": "Die Gründer-Chronik 2026",
+    "founderSubtitle": "Tiefgreifende Profile der bekanntesten indischen Startup-Gründer",
+    "exploreRegistry": "Register Erkunden",
+    "submitStartup": "Startup Einreichen"
+  },
+  "footer": {
+    "founderChronicle": "Die Gründer-Chronik",
+    "startupRegistry": "Startup-Register",
+    "blog": "Blog",
+    "submitStartup": "Startup Einreichen",
+    "about": "Über UpForge"
+  },
+  "meta": {
+    "title": "UpForge — Indiens Verifiziertes Startup-Register 2026",
+    "description": "Entdecke 5000+ verifizierte indische Startups, Unicorn-Gründer und Finanzierungsdaten."
+  }
+}
