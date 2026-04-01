@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "home": "Home",
+    "indianRegistry": "India Register",
+    "globalRegistry": "Globaal Register",
+    "journal": "Tijdschrift",
+    "reports": "Rapporten",
+    "about": "Over ons",
+    "verifyUFRN": "UFRN Verifiëren",
+    "listStartup": "Startup Vermelden"
+  },
+  "home": {
+    "heroTitle": "India's Geverifieerd Startup Register",
+    "heroSubtitle": "5000+ geverifieerde startups. Oprichtersprofilen. Financieringsdata. Gratis.",
+    "founderChronicle": "De Oprichters Kroniek 2026",
+    "founderSubtitle": "Diepgaande profielen van India's meest iconische startup-oprichters",
+    "exploreRegistry": "Register Verkennen",
+    "submitStartup": "Startup Indienen"
+  },
+  "footer": {
+    "founderChronicle": "De Oprichters Kroniek",
+    "startupRegistry": "Startup Register",
+    "blog": "Blog",
+    "submitStartup": "Startup Indienen",
+    "about": "Over UpForge"
+  },
+  "meta": {
+    "title": "UpForge — India's Geverifieerd Startup Register 2026",
+    "description": "Ontdek 5000+ geverifieerde Indiase startups, unicorn-oprichters en financieringsdata."
+  }
+}
