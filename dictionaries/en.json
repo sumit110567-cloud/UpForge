@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "home": "Home",
+    "indianRegistry": "Indian Registry",
+    "globalRegistry": "Global Registry",
+    "journal": "Journal",
+    "reports": "Reports",
+    "about": "About",
+    "verifyUFRN": "Verify UFRN",
+    "listStartup": "List Startup"
+  },
+  "home": {
+    "heroTitle": "India's Verified Startup Registry",
+    "heroSubtitle": "5000+ verified startups. Founder profiles. Funding data. Free.",
+    "founderChronicle": "The Founder Chronicle 2026",
+    "founderSubtitle": "Deep-dive profiles of India's most iconic startup founders",
+    "exploreRegistry": "Explore Registry",
+    "submitStartup": "Submit Your Startup"
+  },
+  "footer": {
+    "founderChronicle": "The Founder Chronicle",
+    "startupRegistry": "Startup Registry",
+    "blog": "Blog",
+    "submitStartup": "Submit Startup",
+    "about": "About UpForge"
+  },
+  "meta": {
+    "title": "UpForge — India's Verified Startup Registry & Founder Stories 2026",
+    "description": "Discover 5000+ verified Indian startups, unicorn founders, funding data, and deep-dive founder stories."
+  }
+}
