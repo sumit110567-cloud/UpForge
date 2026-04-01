@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "indianRegistry": "インド登録",
+    "globalRegistry": "グローバル登録",
+    "journal": "ジャーナル",
+    "reports": "レポート",
+    "about": "概要",
+    "verifyUFRN": "UFRNを確認",
+    "listStartup": "スタートアップを登録"
+  },
+  "home": {
+    "heroTitle": "インドの認証済みスタートアップ登録",
+    "heroSubtitle": "5000以上の認証済みスタートアップ。創業者プロフィール。資金調達データ。無料。",
+    "founderChronicle": "ファウンダー・クロニクル2026",
+    "founderSubtitle": "インドの最も象徴的なスタートアップ創業者の詳細プロフィール",
+    "exploreRegistry": "登録を探索",
+    "submitStartup": "スタートアップを提出"
+  },
+  "footer": {
+    "founderChronicle": "ファウンダー・クロニクル",
+    "startupRegistry": "スタートアップ登録",
+    "blog": "ブログ",
+    "submitStartup": "スタートアップ提出",
+    "about": "UpForgeについて"
+  },
+  "meta": {
+    "title": "UpForge — インドの認証済みスタートアップ登録2026",
+    "description": "5000以上の認証済みインドのスタートアップ、ユニコーン創業者、資金調達データを発見。"
+  }
+}
