@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "home": "الرئيسية",
+    "indianRegistry": "السجل الهندي",
+    "globalRegistry": "السجل العالمي",
+    "journal": "المجلة",
+    "reports": "التقارير",
+    "about": "حول",
+    "verifyUFRN": "التحقق من UFRN",
+    "listStartup": "تسجيل شركة ناشئة"
+  },
+  "home": {
+    "heroTitle": "سجل الشركات الناشئة الهندية الموثق",
+    "heroSubtitle": "+5000 شركة ناشئة موثقة. ملفات المؤسسين. بيانات التمويل. مجاني.",
+    "founderChronicle": "سجل المؤسسين 2026",
+    "founderSubtitle": "ملفات متعمقة لأبرز مؤسسي الشركات الناشئة في الهند",
+    "exploreRegistry": "استكشاف السجل",
+    "submitStartup": "تقديم شركتك الناشئة"
+  },
+  "footer": {
+    "founderChronicle": "سجل المؤسسين",
+    "startupRegistry": "سجل الشركات الناشئة",
+    "blog": "المدونة",
+    "submitStartup": "تقديم شركة ناشئة",
+    "about": "حول UpForge"
+  },
+  "meta": {
+    "title": "UpForge — سجل الشركات الناشئة الهندية الموثق 2026",
+    "description": "اكتشف +5000 شركة ناشئة هندية موثقة ومؤسسي يونيكورن وبيانات التمويل."
+  }
+}
